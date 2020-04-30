@@ -7,24 +7,31 @@ package practica3;
 
 /**
  *
- * @author CompucenterPC1
+ * @author Esneider
  */
 public class Nodo {
-    
-    private String posicion;
-    private Nodo liga;
 
-    public Nodo(String posicion) {
-        this.posicion = posicion;
+    private String nombreVertice;
+    private Nodo liga;
+    private int costo;
+
+    public Nodo(String nombreVertice) {
+        this.nombreVertice = nombreVertice;
         liga = null;
     }
 
-    public String getPosicion() {
-        return posicion;
+    public Nodo(String nombreVertice, int costo) {
+        this.costo = costo;
+        this.nombreVertice = nombreVertice;
+        liga = null;
     }
 
-    public void setPosicion(String posicion) {
-        this.posicion = posicion;
+    public String getNombreVertice() {
+        return nombreVertice;
+    }
+
+    public void setNombreVertice(String posicion) {
+        this.nombreVertice = posicion;
     }
 
     public Nodo getLiga() {
@@ -34,7 +41,13 @@ public class Nodo {
     public void setLiga(Nodo liga) {
         this.liga = liga;
     }
-    
-    
-    
+
+    public int getCosto() {
+        return costo;
+    }
+
+    public void setCosto(int costo) {
+        this.costo = costo;
+    }
+
 }
