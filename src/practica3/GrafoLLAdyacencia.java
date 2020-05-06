@@ -54,24 +54,44 @@ public class GrafoLLAdyacencia {
 
             Nodo llegadaSinLiga = new Nodo(llegada.getNombreVertice());
             Nodo partidaSinLiga = new Nodo(partida.getNombreVertice(), llegada.getCosto());
+            recorrido.setLiga(llegada);
             if (!verticesNoRepetidos.contains(llegadaSinLiga.getNombreVertice())) {
                 nodosCabeza.addLast(llegadaSinLiga);
                 llegadaSinLiga.setLiga(partidaSinLiga);
+            } else {
+
+                Nodo recorridoAux = nodosCabeza.get(verticesNoRepetidos.indexOf(llegadaSinLiga.getNombreVertice()));
+                while (recorridoAux.getLiga() != null) {
+                    recorridoAux = recorridoAux.getLiga();
+                }
+                recorridoAux.setLiga(partidaSinLiga);
+
             }
-            recorrido.setLiga(llegada);
+
             agregar = true;
 
         } else {
+
+            partida.setLiga(llegada);
+            nodosCabeza.add(partida);
             Nodo llegadaSinLiga = new Nodo(llegada.getNombreVertice());
             Nodo partidaSinLiga = new Nodo(partida.getNombreVertice(), llegada.getCosto());
+
             if (!verticesNoRepetidos.contains(llegadaSinLiga.getNombreVertice())) {
                 nodosCabeza.addLast(llegadaSinLiga);
                 llegadaSinLiga.setLiga(partidaSinLiga);
+            } else {
+                Nodo recorridoAux = nodosCabeza.get(verticesNoRepetidos.indexOf(llegadaSinLiga.getNombreVertice()));
+                while (recorridoAux.getLiga() != null) {
+                    recorridoAux = recorridoAux.getLiga();
+                }
+                recorridoAux.setLiga(partidaSinLiga);
             }
-            nodosCabeza.add(partida);
-            partida.setLiga(llegada);
+
             agregar = true;
+
         }
+
         Collections.sort(nodosCabeza, new MyComp());
 
         return agregar;
@@ -184,15 +204,15 @@ public class GrafoLLAdyacencia {
             }
             enCola2.add(recorrido.getNombreVertice());
 
-//          int costNodo=recorrido.getCosto();
-//          String nombreNodo=recorrido.getNombreVertice();  
+            // posicion del nodo cabeza
             int num = verticesNoRepetidos.indexOf(anterior.getNombreVertice());
-            int costoTotal =recorrido.getCosto() + arregloCostos[num].getCosto();
+            
+            int costoTotal = recorrido.getCosto() + arregloCostos[num].getCosto();
             Nodo costoRecorrido = new Nodo(anterior.getNombreVertice(), costoTotal);
 
             if (arregloCostos[verticesNoRepetidos.indexOf(recorrido.getNombreVertice())] != null) {
                 int actualCosto = arregloCostos[verticesNoRepetidos.indexOf(recorrido.getNombreVertice())].getCosto();
-                int nuevoCosto=costoRecorrido.getCosto() ;
+                int nuevoCosto = costoRecorrido.getCosto();
                 if (nuevoCosto < actualCosto) {
                     arregloCostos[verticesNoRepetidos.indexOf(recorrido.getNombreVertice())] = costoRecorrido;
                 }
@@ -213,44 +233,27 @@ public class GrafoLLAdyacencia {
             }
 
         }
+        
 
-//        StringBuilder ruta = new StringBuilder();
-//
-//        ruta.append(fin).append(" <-- ");
-//        int pos = verticesNoRepetidos.indexOf(fin);
-//        String nameRutas = arregloCostos[pos].getNombreVertice();
-//
-//        do {
-//
-//            ruta.append(nameRutas).append(" <-- ");
-//            pos = verticesNoRepetidos.indexOf(arregloCostos[pos].getNombreVertice());
-//            nameRutas = arregloCostos[pos].getNombreVertice();
-//
-//        } while (!nameRutas.equals("-1"));
-//        System.out.println(ruta);
+        StringBuilder ruta = new StringBuilder();
+
+        ruta.append(fin).append(" <-- ");
+        int pos = verticesNoRepetidos.indexOf(fin);
+        String nameRutas = arregloCostos[pos].getNombreVertice();
+
+        do {
+
+            ruta.append(nameRutas).append(" <-- ");
+            pos = verticesNoRepetidos.indexOf(arregloCostos[pos].getNombreVertice());
+            nameRutas = arregloCostos[pos].getNombreVertice();
+
+        } while (!nameRutas.equals("-1"));
+        System.out.println(ruta);
+        
+        System.out.println("valor: "+arregloCostos[verticesNoRepetidos.indexOf(fin)].getCosto());
     }
 
-//    public void recorrerTodosLosNodos(String salida, String llegada) {
-//        int[] visitados = new int[verticesNoRepetidos.size()];
-//
-//        for (int i = 0; i < visitados.length; i++) {
-//            visitados[i] = 0;
-//        }
-//
-//        int inicio = verticesNoRepetidos.indexOf(salida);
-//        Nodo recorrido = nodosCabeza.get(inicio);
-//
-//        while (recorrido.getLiga() != null) {
-//            recorrido = recorrido.getLiga();
-//            String name = recorrido.getNombreVertice();
-//            int posicion = verticesNoRepetidos.indexOf(name);
-//            if (visitados[posicion] == 0) {
-//                visitados[posicion] += 1;
-//            }
-//
-//        }
-//
-//    }
+
 //1,1:2:1,2
 //1,1:2:1,4
 //1,1:2:1,6
