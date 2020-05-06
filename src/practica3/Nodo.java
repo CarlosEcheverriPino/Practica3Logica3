@@ -25,7 +25,7 @@ public class Nodo {
         this.nombreVertice = nombreVertice;
         liga = null;
     }
-
+    
     public String getNombreVertice() {
         return nombreVertice;
     }
