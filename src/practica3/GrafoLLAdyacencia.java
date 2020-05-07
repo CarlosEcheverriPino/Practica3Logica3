@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  */
 public class GrafoLLAdyacencia {
 
-    private final LinkedList<Nodo> nodosCabeza;
+     final LinkedList<Nodo> nodosCabeza;
     List<String> verticesNoRepetidos = new ArrayList<>();
 
     public GrafoLLAdyacencia() {
@@ -251,6 +251,16 @@ public class GrafoLLAdyacencia {
         System.out.println(ruta);
         
         System.out.println("valor: "+arregloCostos[verticesNoRepetidos.indexOf(fin)].getCosto());
+    }
+    
+    public Nodo[] vertices(){
+        int n = nodosCabeza.size();
+     Nodo[] ver = new Nodo[n];
+     for( int x = 0 ; x<= ver.length; x++){
+      ver [x] = nodosCabeza.get(x);
+     
+     }
+    return ver;
     }
 
 

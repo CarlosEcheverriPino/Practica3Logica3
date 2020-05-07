@@ -14,6 +14,8 @@ public class Nodo {
     private String nombreVertice;
     private Nodo liga;
     private int costo;
+    
+    public Nodo(){}
 
     public Nodo(String nombreVertice) {
         this.nombreVertice = nombreVertice;
