@@ -9,7 +9,7 @@ package practica3;
  *
  * @author Esneider
  */
-public class Nodo {
+public class Nodo implements Comparable<Nodo>{
 
     private String nombreVertice;
     private Nodo liga;
@@ -25,7 +25,7 @@ public class Nodo {
         this.nombreVertice = nombreVertice;
         liga = null;
     }
-    
+
     public String getNombreVertice() {
         return nombreVertice;
     }
@@ -48,6 +48,11 @@ public class Nodo {
 
     public void setCosto(int costo) {
         this.costo = costo;
+    }
+
+    @Override
+    public int compareTo(Nodo o) {
+        return this.nombreVertice.compareTo(o.getNombreVertice());
     }
 
 }

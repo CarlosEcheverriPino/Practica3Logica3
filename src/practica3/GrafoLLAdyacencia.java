@@ -73,7 +73,7 @@ public class GrafoLLAdyacencia {
         } else {
 
             partida.setLiga(llegada);
-            nodosCabeza.add(partida);
+            nodosCabeza.addLast(partida);
             Nodo llegadaSinLiga = new Nodo(llegada.getNombreVertice());
             Nodo partidaSinLiga = new Nodo(partida.getNombreVertice(), llegada.getCosto());
 
@@ -92,7 +92,7 @@ public class GrafoLLAdyacencia {
 
         }
 
-        Collections.sort(nodosCabeza, new MyComp());
+        Collections.sort(nodosCabeza);
 
         return agregar;
     }
@@ -206,7 +206,7 @@ public class GrafoLLAdyacencia {
 
             // posicion del nodo cabeza
             int num = verticesNoRepetidos.indexOf(anterior.getNombreVertice());
-            
+
             int costoTotal = recorrido.getCosto() + arregloCostos[num].getCosto();
             Nodo costoRecorrido = new Nodo(anterior.getNombreVertice(), costoTotal);
 
@@ -233,7 +233,6 @@ public class GrafoLLAdyacencia {
             }
 
         }
-        
 
         StringBuilder ruta = new StringBuilder();
 
@@ -249,10 +248,17 @@ public class GrafoLLAdyacencia {
 
         } while (!nameRutas.equals("-1"));
         System.out.println(ruta);
-        
-        System.out.println("valor: "+arregloCostos[verticesNoRepetidos.indexOf(fin)].getCosto());
+
+        System.out.println("valor: " + arregloCostos[verticesNoRepetidos.indexOf(fin)].getCosto());
     }
 
+    public Nodo getCabeza(int i) {
+        return nodosCabeza.get(i);
+    }
+
+    public int tamaño() {
+        return nodosCabeza.size();
+    }
 
 //1,1:2:1,2
 //1,1:2:1,4
