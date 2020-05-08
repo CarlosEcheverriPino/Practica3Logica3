@@ -6,6 +6,7 @@
 package practica3;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -18,78 +19,111 @@ import java.util.stream.Collectors;
  */
 public class GrafoLLAdyacencia {
 
-    private final LinkedList<Nodo> nodosCabeza;
-    List<String> verticesNoRepetidos = new ArrayList<>();
+    static LinkedList<Nodo> nodosCabeza;
+    static List<String> verticesNoRepetidos = new ArrayList<>();
 
     public GrafoLLAdyacencia() {
         nodosCabeza = new LinkedList<>();
     }
 
     //Metodo para insertar, aún no probado. Rezen para que funcione o se los va a llevar los negros del ataúd xD
-    public boolean Insertar(Nodo partida, Nodo llegada) {
+    public static boolean Insertar(Nodo partida, Nodo llegada) {
 
         boolean agregar = false;
 
-        if (!verticesNoRepetidos.isEmpty() && verticesNoRepetidos.contains(partida.getNombreVertice())) {
+        if (verticesNoRepetidos.contains(partida.getNombreVertice())) {
 
             int numNodo = verticesNoRepetidos.indexOf(partida.getNombreVertice());
             Nodo recorrido = nodosCabeza.get(numNodo);
 
-            if (recorrido.getLiga() != null) {
-                recorrido = recorrido.getLiga();
-            }
-            do {
+//            if (recorrido.getLiga() != null) {
+//                recorrido = recorrido.getLiga();
+//            }
+//            do {
+//
+//                if (!recorrido.getNombreVertice().equals(llegada.getNombreVertice())) {
+//
+//                    if (recorrido.getLiga() != null) {
+//                        recorrido = recorrido.getLiga();
+//                    }
+//
+//                } else {
+//                    return agregar;
+//                }
+//
+//            } while (recorrido.getLiga() != null);
+            if (!partida.getNombreVertice().equals(llegada.getNombreVertice())) {
+                while (recorrido.getLiga() != null) {
 
-                if (!recorrido.getNombreVertice().equals(llegada.getNombreVertice())) {
+                    if (!recorrido.getNombreVertice().equals(llegada.getNombreVertice())) {
 
-                    if (recorrido.getLiga() != null) {
-                        recorrido = recorrido.getLiga();
+                        if (recorrido.getLiga() != null) {
+                            recorrido = recorrido.getLiga();
+                        }
+
+                    } else {
+                        return agregar;
                     }
-
-                } else {
-                    return agregar;
                 }
 
-            } while (recorrido.getLiga() != null);
-
-            Nodo llegadaSinLiga = new Nodo(llegada.getNombreVertice());
-            Nodo partidaSinLiga = new Nodo(partida.getNombreVertice(), llegada.getCosto());
-            recorrido.setLiga(llegada);
-            if (!verticesNoRepetidos.contains(llegadaSinLiga.getNombreVertice())) {
-                nodosCabeza.addLast(llegadaSinLiga);
-                llegadaSinLiga.setLiga(partidaSinLiga);
-            } else {
-
-                Nodo recorridoAux = nodosCabeza.get(verticesNoRepetidos.indexOf(llegadaSinLiga.getNombreVertice()));
-                while (recorridoAux.getLiga() != null) {
-                    recorridoAux = recorridoAux.getLiga();
-                }
-                recorridoAux.setLiga(partidaSinLiga);
-
+                recorrido.setLiga(llegada);
+                agregar = true;
             }
-
-            agregar = true;
+//            Nodo llegadaSinLiga = new Nodo(llegada.getNombreVertice());
+//            Nodo partidaSinLiga = new Nodo(partida.getNombreVertice(), llegada.getCosto());
+//            
+//            if (!verticesNoRepetidos.contains(llegadaSinLiga.getNombreVertice())) {
+//                nodosCabeza.addLast(llegadaSinLiga);
+//                llegadaSinLiga.setLiga(partidaSinLiga);
+//            } else {
+//
+//                Nodo recorridoAux = nodosCabeza.get(verticesNoRepetidos.indexOf(llegadaSinLiga.getNombreVertice()));
+//                while (recorridoAux.getLiga() != null) {
+//                    recorridoAux = recorridoAux.getLiga();
+//                }
+//                recorridoAux.setLiga(partidaSinLiga);
+//
+//            }
 
         } else {
 
-            partida.setLiga(llegada);
-            nodosCabeza.addLast(partida);
-            Nodo llegadaSinLiga = new Nodo(llegada.getNombreVertice());
-            Nodo partidaSinLiga = new Nodo(partida.getNombreVertice(), llegada.getCosto());
-
-            if (!verticesNoRepetidos.contains(llegadaSinLiga.getNombreVertice())) {
-                nodosCabeza.addLast(llegadaSinLiga);
-                llegadaSinLiga.setLiga(partidaSinLiga);
-            } else {
-                Nodo recorridoAux = nodosCabeza.get(verticesNoRepetidos.indexOf(llegadaSinLiga.getNombreVertice()));
-                while (recorridoAux.getLiga() != null) {
-                    recorridoAux = recorridoAux.getLiga();
-                }
-                recorridoAux.setLiga(partidaSinLiga);
+            if (!partida.getNombreVertice().equals(llegada.getNombreVertice())) {
+                nodosCabeza.addLast(partida);
+                partida.setLiga(llegada);
             }
 
-            agregar = true;
+//            Nodo llegadaSinLiga = new Nodo(llegada.getNombreVertice());
+//            Nodo partidaSinLiga = new Nodo(partida.getNombreVertice(), llegada.getCosto());
+//
+//            if (!verticesNoRepetidos.contains(llegadaSinLiga.getNombreVertice())) {
+//                nodosCabeza.addLast(llegadaSinLiga);
+//                llegadaSinLiga.setLiga(partidaSinLiga);
+//            } else {
+//                Nodo recorridoAux = nodosCabeza.get(verticesNoRepetidos.indexOf(llegadaSinLiga.getNombreVertice()));
+//                while (recorridoAux.getLiga() != null) {
+//                    recorridoAux = recorridoAux.getLiga();
+//                }
+//                recorridoAux.setLiga(partidaSinLiga);
+//            }
+        }
 
+        Nodo llegadaSinLiga = new Nodo(llegada.getNombreVertice());
+        Nodo partidaSinLiga = new Nodo(partida.getNombreVertice(), llegada.getCosto());
+
+        if (!verticesNoRepetidos.contains(llegadaSinLiga.getNombreVertice())) {
+
+            if (!partida.getNombreVertice().equals(llegada.getNombreVertice())) {
+                nodosCabeza.addLast(llegadaSinLiga);
+                llegadaSinLiga.setLiga(partidaSinLiga);
+            }
+
+        } else if (agregar) {
+            Nodo recorridoAux = nodosCabeza.get(verticesNoRepetidos.indexOf(llegadaSinLiga.getNombreVertice()));
+            while (recorridoAux.getLiga() != null) {
+                recorridoAux = recorridoAux.getLiga();
+            }
+
+            recorridoAux.setLiga(partidaSinLiga);
         }
 
         Collections.sort(nodosCabeza);
@@ -97,7 +131,8 @@ public class GrafoLLAdyacencia {
         return agregar;
     }
 
-    public int leerArchivo(String ruta) throws FileNotFoundException, IOException {
+    @SuppressWarnings("null")
+    public static int leerArchivo(String ruta) throws FileNotFoundException, IOException {
 
         String text1;
         String text2;
@@ -144,9 +179,82 @@ public class GrafoLLAdyacencia {
                 text1 = bufferArchivo.readLine();
                 cont = 0;
                 Insertar(partida, llegada);
-                vertices.add(inicio);
-                vertices.add(fin);
-                numeroVertices(vertices);
+
+                if (!inicio.equals(fin)) {
+                    vertices.add(inicio);
+                    vertices.add(fin);
+                    numeroVertices(vertices);
+                }
+
+                fin = null;
+                inicio = null;
+
+                if (text1 != null) {
+                    tokenizadorDePalabras = new StringTokenizer(text1, ":");
+                    cont = 0;
+                }
+            }
+        }
+        int msm = numeroVertices(vertices);
+        return msm;
+    }
+    
+    public static int leerArchivo(File archivo) throws FileNotFoundException, IOException {
+
+        String text1;
+        String text2;
+
+        FileReader archivoReader = new FileReader(archivo);
+        
+        
+        BufferedReader bufferArchivo = new BufferedReader(archivoReader);
+        
+        
+        /*
+        Esta parte sirve para leer el numero de lineas del archivo
+        la idea es pensar si se puede usar para la matriz de costos o no
+         */
+        //int nLineas = (int) bufferArchivo.lines().count();
+        text1 = bufferArchivo.readLine();
+
+        StringTokenizer tokenizadorDePalabras = new StringTokenizer(text1, ":");
+
+        int cont = 0;
+        Nodo partida = null;
+        Nodo llegada = null;
+        int cost = 0;
+        String fin = null, inicio = null;
+
+        List<String> vertices = new ArrayList<>();
+
+        while (tokenizadorDePalabras.hasMoreTokens()) {
+
+            text2 = tokenizadorDePalabras.nextToken();
+
+            if (cont == 0) {
+                partida = new Nodo(text2);
+                inicio = text2;
+            }
+            if (cont == 1) {
+                cost = Integer.parseInt(text2);
+            }
+            if (cont == 2) {
+                llegada = new Nodo(text2, cost);
+                fin = text2;
+            }
+            cont++;
+
+            if (!tokenizadorDePalabras.hasMoreTokens()) {
+                text1 = bufferArchivo.readLine();
+                cont = 0;
+                Insertar(partida, llegada);
+
+                if (!inicio.equals(fin)) {
+                    vertices.add(inicio);
+                    vertices.add(fin);
+                    numeroVertices(vertices);
+                }
+
                 fin = null;
                 inicio = null;
 
@@ -160,14 +268,14 @@ public class GrafoLLAdyacencia {
         return msm;
     }
 
-    public int numeroVertices(List<String> listaVertices) {
+    public static int numeroVertices(List<String> listaVertices) {
 
         verticesNoRepetidos = listaVertices.stream().distinct().collect(Collectors.toList());
         Collections.sort(verticesNoRepetidos);
         return verticesNoRepetidos.size();
     }
 
-    public class MyComp implements Comparator<Nodo> {
+    public static class MyComp implements Comparator<Nodo> {
 
         @Override
         public int compare(Nodo c1, Nodo c2) {
@@ -182,7 +290,13 @@ public class GrafoLLAdyacencia {
         }
     }
 
-    public void dijkstraRuta(String inicio, String fin) {
+    /**
+     *
+     * @param inicio
+     * @param fin
+     * @return
+     */
+    public static StringBuilder dijkstraRuta(String inicio, String fin) {
 
         int posInicio = verticesNoRepetidos.indexOf(inicio);
 
@@ -247,17 +361,35 @@ public class GrafoLLAdyacencia {
             nameRutas = arregloCostos[pos].getNombreVertice();
 
         } while (!nameRutas.equals("-1"));
-        System.out.println(ruta);
+        //System.out.println(ruta);
 
-        System.out.println("valor: " + arregloCostos[verticesNoRepetidos.indexOf(fin)].getCosto());
+        //System.out.println("valor: " + arregloCostos[verticesNoRepetidos.indexOf(fin)].getCosto());
+        return ruta;
     }
 
-    public Nodo getCabeza(int i) {
+    public static Nodo[] vertices() {
+        int n = nodosCabeza.size();
+        Nodo[] ver = new Nodo[n];
+        for (int x = 0; x <= ver.length; x++) {
+            ver[x] = nodosCabeza.get(x);
+
+        }
+        return ver;
+    }
+
+    public static Nodo getCabeza(int i) {
         return nodosCabeza.get(i);
     }
 
-    public int tamaño() {
-        return nodosCabeza.size();
+    public static String[] lista() {
+        String[] arr = new String[tamaño()];
+        verticesNoRepetidos.toArray(arr);
+        return arr;
+    }
+
+    public static int tamaño() {
+        int tamaño = nodosCabeza.size();
+        return tamaño;
     }
 
 //1,1:2:1,2
