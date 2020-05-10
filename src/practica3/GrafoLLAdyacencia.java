@@ -26,13 +26,11 @@ public class GrafoLLAdyacencia {
         nodosCabeza = new LinkedList<>();
     }
 
-    //Metodo para insertar, aún no probado. Rezen para que funcione o se los va a llevar los negros del ataúd xD
     public static boolean Insertar(Nodo partida, Nodo llegada) {
 
         boolean agregar = false;
 
         if (verticesNoRepetidos.contains(partida.getNombreVertice())) {
-
             int numNodo = verticesNoRepetidos.indexOf(partida.getNombreVertice());
             Nodo recorrido = nodosCabeza.get(numNodo);
 
@@ -40,32 +38,25 @@ public class GrafoLLAdyacencia {
 //                recorrido = recorrido.getLiga();
 //            }
 //            do {
-//
 //                if (!recorrido.getNombreVertice().equals(llegada.getNombreVertice())) {
 //
 //                    if (recorrido.getLiga() != null) {
 //                        recorrido = recorrido.getLiga();
 //                    }
-//
 //                } else {
 //                    return agregar;
 //                }
-//
 //            } while (recorrido.getLiga() != null);
             if (!partida.getNombreVertice().equals(llegada.getNombreVertice())) {
                 while (recorrido.getLiga() != null) {
-
                     if (!recorrido.getNombreVertice().equals(llegada.getNombreVertice())) {
-
                         if (recorrido.getLiga() != null) {
                             recorrido = recorrido.getLiga();
                         }
-
                     } else {
                         return agregar;
                     }
                 }
-
                 recorrido.setLiga(llegada);
                 agregar = true;
             }
@@ -84,9 +75,7 @@ public class GrafoLLAdyacencia {
 //                recorridoAux.setLiga(partidaSinLiga);
 //
 //            }
-
         } else {
-
             if (!partida.getNombreVertice().equals(llegada.getNombreVertice())) {
                 nodosCabeza.addLast(partida);
                 partida.setLiga(llegada);
@@ -106,7 +95,6 @@ public class GrafoLLAdyacencia {
 //                recorridoAux.setLiga(partidaSinLiga);
 //            }
         }
-
         Nodo llegadaSinLiga = new Nodo(llegada.getNombreVertice());
         Nodo partidaSinLiga = new Nodo(partida.getNombreVertice(), llegada.getCosto());
 
@@ -199,80 +187,13 @@ public class GrafoLLAdyacencia {
         return msm;
     }
     
-    public static int leerArchivo(File archivo) throws FileNotFoundException, IOException {
-
-        String text1;
-        String text2;
-
-        FileReader archivoReader = new FileReader(archivo);
-        
-        
-        BufferedReader bufferArchivo = new BufferedReader(archivoReader);
-        
-        
-        /*
-        Esta parte sirve para leer el numero de lineas del archivo
-        la idea es pensar si se puede usar para la matriz de costos o no
-         */
-        //int nLineas = (int) bufferArchivo.lines().count();
-        text1 = bufferArchivo.readLine();
-
-        StringTokenizer tokenizadorDePalabras = new StringTokenizer(text1, ":");
-
-        int cont = 0;
-        Nodo partida = null;
-        Nodo llegada = null;
-        int cost = 0;
-        String fin = null, inicio = null;
-
-        List<String> vertices = new ArrayList<>();
-
-        while (tokenizadorDePalabras.hasMoreTokens()) {
-
-            text2 = tokenizadorDePalabras.nextToken();
-
-            if (cont == 0) {
-                partida = new Nodo(text2);
-                inicio = text2;
-            }
-            if (cont == 1) {
-                cost = Integer.parseInt(text2);
-            }
-            if (cont == 2) {
-                llegada = new Nodo(text2, cost);
-                fin = text2;
-            }
-            cont++;
-
-            if (!tokenizadorDePalabras.hasMoreTokens()) {
-                text1 = bufferArchivo.readLine();
-                cont = 0;
-                Insertar(partida, llegada);
-
-                if (!inicio.equals(fin)) {
-                    vertices.add(inicio);
-                    vertices.add(fin);
-                    numeroVertices(vertices);
-                }
-
-                fin = null;
-                inicio = null;
-
-                if (text1 != null) {
-                    tokenizadorDePalabras = new StringTokenizer(text1, ":");
-                    cont = 0;
-                }
-            }
-        }
-        int msm = numeroVertices(vertices);
-        return msm;
-    }
-
     public static int numeroVertices(List<String> listaVertices) {
-
         verticesNoRepetidos = listaVertices.stream().distinct().collect(Collectors.toList());
         Collections.sort(verticesNoRepetidos);
         return verticesNoRepetidos.size();
+    }
+    public static List<String> getLista(){
+        return verticesNoRepetidos;
     }
 
     public static class MyComp implements Comparator<Nodo> {
@@ -347,7 +268,7 @@ public class GrafoLLAdyacencia {
             }
 
         }
-
+        
         StringBuilder ruta = new StringBuilder();
 
         ruta.append(fin).append(" <-- ");
@@ -361,9 +282,6 @@ public class GrafoLLAdyacencia {
             nameRutas = arregloCostos[pos].getNombreVertice();
 
         } while (!nameRutas.equals("-1"));
-        //System.out.println(ruta);
-
-        //System.out.println("valor: " + arregloCostos[verticesNoRepetidos.indexOf(fin)].getCosto());
         return ruta;
     }
 
